@@ -29,14 +29,14 @@ print(dataset.describe())
 #See the distribution of classes of Irises
 print(dataset.groupby('class').size())
 #Box and whisker plots
-dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
-pyplot.show()
+#dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+#pyplot.show()
 #histograms
-dataset.hist()
-pyplot.show()
+#dataset.hist()
+#pyplot.show()
 #Matrix of scatter plots
-scatter_matrix(dataset)
-pyplot.show()
+#scatter_matrix(dataset)
+#pyplot.show()
 
 #Split-out the validation dataset
 array = dataset.values
@@ -62,3 +62,16 @@ for name, model in models:
     results.append(cv_results)
     names.append(name)
     print('%s: %f (%f)' % (name, cv_results.mean(), cv_results.std()))
+#compare algorithms with box and whisker plot
+pyplot.boxplot(results, labels=names)
+pyplot.title('Algorithm Comparison')
+pyplot.show()
+
+#Make predictions on the validation dataset
+model = LinearDiscriminantAnalysis()
+model.fit(X_train, Y_train)
+predictions = model.predict(X_validation)
+#Evaluate the predictions
+print(accuracy_score(Y_validation, predictions))
+print(confusion_matrix(Y_validation, predictions))
+print(classification_report(Y_validation, predictions))
